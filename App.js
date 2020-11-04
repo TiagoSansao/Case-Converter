@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Platform, StatusBar, Dimensions, Image, TouchableOpacity, Clipboard} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, SafeAreaView, TextInput, Platform, StatusBar, Image, TouchableOpacity, Clipboard} from 'react-native';
 import { AdMobBanner } from 'expo-ads-admob';
 
 export default function App() {
 
   const [text, setText] = useState('');
-
-  console.log(Dimensions.get('window'))
 
   function phraseFormat() {
     let newText = text;
@@ -37,7 +35,9 @@ export default function App() {
     let newText = text.split('');
     for (let i = 0; i < newText.length; i += 2) {
       newText[i] = newText[i].toUpperCase();
-      newText[i+1] = newText[i+1].toLowerCase();
+      if (newText[i+1] !== undefined) {
+        newText[i+1] = newText[i+1].toLowerCase();
+      }
     };
     setText(newText.join(''));
   };
@@ -63,84 +63,92 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image style={styles.headerLogo} source={require('./assets/icon.png')}></Image>
-        <Text style={styles.headerText}>Case Converter</Text>
-        <View />
-      </View>
-      <AdMobBanner 
-        style={styles.advertisement}
-        bannerSize="banner"
-        adUnitID="ca-app-pub-3940256099942544/6300978111"
-      />
-      <TextInput style={styles.textInput} value={text} multiline onChangeText={(text) => setText(text)}></TextInput>
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionButton} onPress={phraseFormat}>
-          <Text style={styles.optionButtonText}>
-            Phrase format
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={lowercase}>
-          <Text style={styles.optionButtonText}>
-            lowercase
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={uppercase}>
-          <Text style={styles.optionButtonText}>
-            UPPERCASE
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={capitalized}>
-          <Text style={styles.optionButtonText}>
-            Capitalized
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={alternated}>
-          <Text style={styles.optionButtonText}>
-            AlTeRnAtEd
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={inverted}>
-          <Text style={styles.optionButtonText}>
-            iNVERTED
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.functionsContainer}>
-        <TouchableOpacity style={styles.functionButton} onPress={clear}>
-          <Text style={styles.functionButtonText}>
-            Clear
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.functionButton} onPress={copy}>
-          <Text style={styles.functionButtonText}>
-            Copy
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <AdMobBanner 
-        style={styles.advertisement}
-        bannerSize="largeBanner"
-        adUnitID="ca-app-pub-3940256099942544/6300978111"
-      />
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Developed by {"\n"} Tiago Schulz Sansão &copy; 2020-{new Date().getFullYear()}</Text>
-      </View>
-    </SafeAreaView>
+    <ScrollView style={styles.scroll}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Image style={styles.headerLogo} source={require('./assets/icon.png')}></Image>
+          <Text style={styles.headerText}>Case Converter</Text>
+          <View />
+        </View>
+        <AdMobBanner
+          style={styles.adTop}
+          bannerSize="banner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+        />
+        <TextInput style={styles.textInput} value={text} multiline onChangeText={(text) => setText(text)}></TextInput>
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity style={styles.optionButton} onPress={phraseFormat}>
+            <Text style={styles.optionButtonText}>
+              Phrase format
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={lowercase}>
+            <Text style={styles.optionButtonText}>
+              lowercase
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={uppercase}>
+            <Text style={styles.optionButtonText}>
+              UPPERCASE
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={capitalized}>
+            <Text style={styles.optionButtonText}>
+              Capitalized
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={alternated}>
+            <Text style={styles.optionButtonText}>
+              AlTeRnAtEd
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={inverted}>
+            <Text style={styles.optionButtonText}>
+              iNVERTED
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.functionsContainer}>
+          <TouchableOpacity style={styles.functionButton} onPress={clear}>
+            <Text style={styles.functionButtonText}>
+              Clear
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.functionButton} onPress={copy}>
+            <Text style={styles.functionButtonText}>
+              Copy
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <AdMobBanner
+          style={styles.adBottom}
+          bannerSize="largeBanner"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
+        />
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Developed by {"\n"} Tiago Schulz Sansão &copy; 2020-{new Date().getFullYear()}</Text>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  advertisement: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
+  adTop: {
+    marginTop: 10,
+    width: 320,
+    height: 50,
+  },
+  adBottom: {
+    width: 320,
+    height: 100,
+    marginTop: 10,
+    marginBottom: 15,
   },
   container: {
-    flex: 1,
-    backgroundColor: '#2d3436',
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   functionsContainer: {
     flexDirection: 'row',
@@ -163,10 +171,9 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: '#6c5ce7',
-    height: 50,
     width: '100%',
-    marginTop: 'auto',
     justifyContent: 'center',
+    height: 55,
   },
   footerText: {
     textAlign: 'center',
@@ -177,7 +184,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#6c5ce7',
     width: '100%',
-    height: 60,
+    height: 75,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -217,6 +224,10 @@ const styles = StyleSheet.create({
     color: 'white',
     textShadowColor: 'black',
     textShadowRadius: 5,
+  },
+  scroll: {
+    backgroundColor: '#2d3436',
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   textInput: {
     textAlignVertical: 'top',
