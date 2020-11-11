@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, SafeAreaView, TextInput, Platform, StatusBar, Image, TouchableOpacity, Clipboard} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  Platform,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+  Clipboard,
+} from 'react-native';
 import { AdMobBanner } from 'expo-ads-admob';
 
 export default function App() {
-
   const [text, setText] = useState('');
+
+  function getWords() {
+    const regEx = /[A-Z0-9]+/gi;
+    if (regEx.test(text)) return text.match(regEx).length;
+    else return 0;
+  }
 
   function phraseFormat() {
     let newText = text;
-    let regEx = /(\?|\.|\!)\s?[a-z]|^[a-z]/gi
+    let regEx = /(\?|\.|\!)\s?[a-z]|^[a-z]/gi;
     newText = newText.replace(regEx, (match) => {
       return match.toUpperCase();
-    })
+    });
     setText(newText);
-  };
+  }
 
   function lowercase() {
     setText(text.toLowerCase());
-  };
+  }
 
   function uppercase() {
     setText(text.toUpperCase());
-  };
+  }
 
   function capitalized() {
-    let regEx = /\s[a-z]|^[a-z]/gi
+    let regEx = /\s[a-z]|^[a-z]/gi;
     let newText = text.toLowerCase();
-    setText(newText.replace(regEx, (match) => {
-      return match.toUpperCase();
-    }));
-  };
+    setText(
+      newText.replace(regEx, (match) => {
+        return match.toUpperCase();
+      })
+    );
+  }
 
   function alternated() {
     let newText = text.split('');
     for (let i = 0; i < newText.length; i += 2) {
       newText[i] = newText[i].toUpperCase();
-      if (newText[i+1] !== undefined) {
-        newText[i+1] = newText[i+1].toLowerCase();
+      if (newText[i + 1] !== undefined) {
+        newText[i + 1] = newText[i + 1].toLowerCase();
       }
-    };
+    }
     setText(newText.join(''));
-  };
+  }
 
   function inverted() {
     let newText = text.split('');
@@ -49,14 +68,14 @@ export default function App() {
         newText[i] = newText[i].toLowerCase();
       } else {
         newText[i] = newText[i].toUpperCase();
-      };
-    };
+      }
+    }
     setText(newText.join(''));
-  }; 
+  }
 
   function clear() {
     setText('');
-  };
+  }
 
   function copy() {
     Clipboard.setString(text);
@@ -66,72 +85,67 @@ export default function App() {
     <ScrollView style={styles.scroll}>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Image style={styles.headerLogo} source={require('./assets/icon.png')}></Image>
+          <Image
+            style={styles.headerLogo}
+            source={require('./assets/icon.png')}
+          ></Image>
           <Text style={styles.headerText}>Case Converter</Text>
           <View />
         </View>
-        <AdMobBanner
-          style={styles.adTop}
-          bannerSize="banner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
-        />
-        <TextInput style={styles.textInput} value={text} multiline onChangeText={(text) => setText(text)}></TextInput>
+        <AdMobBanner style={styles.adTop} bannerSize='banner' adUnitID='' />
+        <TextInput
+          style={styles.textInput}
+          value={text}
+          multiline
+          onChangeText={(text) => setText(text)}
+        ></TextInput>
+        <View style={styles.countView}>
+          <Text style={styles.countText}>Words: {getWords()}</Text>
+          <Text style={styles.countText}>Letters: {text.length}</Text>
+        </View>
         <View style={styles.optionsContainer}>
           <TouchableOpacity style={styles.optionButton} onPress={phraseFormat}>
-            <Text style={styles.optionButtonText}>
-              Phrase format
-            </Text>
+            <Text style={styles.optionButtonText}>Phrase format</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={lowercase}>
-            <Text style={styles.optionButtonText}>
-              lowercase
-            </Text>
+            <Text style={styles.optionButtonText}>lowercase</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={uppercase}>
-            <Text style={styles.optionButtonText}>
-              UPPERCASE
-            </Text>
+            <Text style={styles.optionButtonText}>UPPERCASE</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={capitalized}>
-            <Text style={styles.optionButtonText}>
-              Capitalized
-            </Text>
+            <Text style={styles.optionButtonText}>Capitalized</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={alternated}>
-            <Text style={styles.optionButtonText}>
-              AlTeRnAtEd
-            </Text>
+            <Text style={styles.optionButtonText}>AlTeRnAtEd</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={inverted}>
-            <Text style={styles.optionButtonText}>
-              iNVERTED
-            </Text>
+            <Text style={styles.optionButtonText}>iNVERTED</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.functionsContainer}>
           <TouchableOpacity style={styles.functionButton} onPress={clear}>
-            <Text style={styles.functionButtonText}>
-              Clear
-            </Text>
+            <Text style={styles.functionButtonText}>Clear</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.functionButton} onPress={copy}>
-            <Text style={styles.functionButtonText}>
-              Copy
-            </Text>
+            <Text style={styles.functionButtonText}>Copy</Text>
           </TouchableOpacity>
         </View>
         <AdMobBanner
           style={styles.adBottom}
-          bannerSize="largeBanner"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          bannerSize='largeBanner'
+          adUnitID=''
         />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Developed by {"\n"} Tiago Schulz Sansão &copy; 2020-{new Date().getFullYear()}</Text>
+          <Text style={styles.footerText}>
+            Developed by {'\n'} Tiago Schulz Sansão &copy; 2020-
+            {new Date().getFullYear()}
+          </Text>
         </View>
       </SafeAreaView>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   adTop: {
@@ -150,7 +164,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  countView: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 5,
+  },
+  countText: {
+    color: 'white',
+    fontSize: 20,
+  },
   functionsContainer: {
+    marginTop: 5,
+    marginBottom: 3,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
@@ -167,7 +193,7 @@ const styles = StyleSheet.create({
   functionButtonText: {
     textShadowColor: 'black',
     textShadowRadius: 5,
-    color: 'white'
+    color: 'white',
   },
   footer: {
     backgroundColor: '#6c5ce7',
@@ -204,7 +230,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   optionsContainer: {
-    marginTop: 15,
+    marginTop: 5,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
@@ -227,7 +253,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     backgroundColor: '#2d3436',
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   textInput: {
     textAlignVertical: 'top',
