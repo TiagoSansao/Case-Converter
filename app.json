@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Case Converter",
-    "slug": "Case Converter",
-    "version": "2.1.0",
+    "slug": "convert-case",
+    "version": "2.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
         "googleMobileAdsAppId": ""
       },
       "package": "com.tiagosansao.convertcase",
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"

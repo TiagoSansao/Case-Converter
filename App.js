@@ -18,13 +18,14 @@ export default function App() {
   const [text, setText] = useState('');
 
   function getWords() {
-    const regEx = /[A-Z0-9]+/gi;
+    const regEx = /[A-Z0-9áàâãéèêíïóôõöúçñ]+/gi;
+
     if (regEx.test(text)) return text.match(regEx).length;
     else return 0;
   }
 
   function phraseFormat() {
-    let newText = text;
+    let newText = text.toLowerCase();
     let regEx = /(\?|\.|\!)\s?[a-z]|^[a-z]/gi;
     newText = newText.replace(regEx, (match) => {
       return match.toUpperCase();
@@ -100,35 +101,49 @@ export default function App() {
           onChangeText={(text) => setText(text)}
         ></TextInput>
         <View style={styles.countView}>
-          <Text style={styles.countText}>Words: {getWords()}</Text>
-          <Text style={styles.countText}>Letters: {text.length}</Text>
+          <View>
+            <Text style={styles.countText}>Words: {getWords()}</Text>
+            <Text style={styles.portuguese}>Palavras</Text>
+          </View>
+          <View>
+            <Text style={styles.countText}>Letters: {text.length}</Text>
+            <Text style={styles.portuguese}>Letras</Text>
+          </View>
         </View>
         <View style={styles.optionsContainer}>
           <TouchableOpacity style={styles.optionButton} onPress={phraseFormat}>
             <Text style={styles.optionButtonText}>Phrase format</Text>
+            <Text style={styles.portuguese}>Formato frase</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={lowercase}>
             <Text style={styles.optionButtonText}>lowercase</Text>
+            <Text style={styles.portuguese}>minúsculas</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={uppercase}>
             <Text style={styles.optionButtonText}>UPPERCASE</Text>
+            <Text style={styles.portuguese}>MAIÚSCULAS </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={capitalized}>
             <Text style={styles.optionButtonText}>Capitalized</Text>
+            <Text style={styles.portuguese}>Capitalizado</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={alternated}>
             <Text style={styles.optionButtonText}>AlTeRnAtEd</Text>
+            <Text style={styles.portuguese}>AlTeRnAdO</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={inverted}>
             <Text style={styles.optionButtonText}>iNVERTED</Text>
+            <Text style={styles.portuguese}>iNVERTIDO</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.functionsContainer}>
           <TouchableOpacity style={styles.functionButton} onPress={clear}>
             <Text style={styles.functionButtonText}>Clear</Text>
+            <Text style={styles.portuguese}>Limpar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.functionButton} onPress={copy}>
             <Text style={styles.functionButtonText}>Copy</Text>
+            <Text style={styles.portuguese}>Copiar</Text>
           </TouchableOpacity>
         </View>
         <AdMobBanner
@@ -254,6 +269,13 @@ const styles = StyleSheet.create({
   scroll: {
     backgroundColor: '#2d3436',
     marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  portuguese: {
+    color: 'white',
+    textShadowColor: 'black',
+    textShadowRadius: 5,
+    fontSize: 10,
+    textAlign: 'center',
   },
   textInput: {
     textAlignVertical: 'top',
